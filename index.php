@@ -20,6 +20,8 @@ $user_name = $_SESSION['user_name'];
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
     <style>
         body {
+            margin: 0;
+            padding: 0;
             font-family: 'Roboto', sans-serif;
         }
         .slider {
@@ -54,10 +56,7 @@ $user_name = $_SESSION['user_name'];
         .next {
             right: 10px;
         }
-        nav a {
-            font-size: 1.25rem; 
-            margin: 0 15px; 
-        }
+        
         .dropdown {
             position: relative;
             display: inline-block;
@@ -104,9 +103,8 @@ $user_name = $_SESSION['user_name'];
     position: relative;
     overflow: hidden;
     transition: background-color 0.3s ease;
-    background: white;
+    /* background: white; */
     padding: 15px;
-    border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 100%;
@@ -114,11 +112,9 @@ $user_name = $_SESSION['user_name'];
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex: 1 1 calc(25% - 20px); /* 25% width for 4 items per row */
-    max-width: 250px;
+    flex: 1 1 calc(33.33% - 20px); /* 33.33% width for 3 items per row (increased size) */
+    max-width: 350px; /* Increased max-width */
 }
-
-
 
 .product-container {
     display: grid;
@@ -128,25 +124,24 @@ $user_name = $_SESSION['user_name'];
 }
 
 
-
 .product-card img {
     margin-top: 10px;
-    width: 100vw;
-    height: 30vh;
-    object-fit: cover;
-    border-radius: 8px;
+    width: 100%; /* Makes image take up the full width of the card */
+    height: 36vh; /* Increased height */
+    object-fit:cover;
+    /* border-radius: 8px; */
     transition: transform 0.3s ease;
     cursor: pointer;
 }
-
 /* Hover Effect */
 .product-card:hover img {
     transform: scale(1.05);
 }
 
-.product-card:hover {
+/* .product-card:hover {
+    
     background-color: rgba(240, 240, 240, 0.5);
-}
+} */
 
 /* Price Styling */
 .product-price {
@@ -170,23 +165,49 @@ $user_name = $_SESSION['user_name'];
 /* Add to Cart Button */
 .add-to-cart {
     width: 90%;
-    background-color: #ff5f5f;
+    background-color: black; /* Bold black button */
     color: white;
     border: none;
-    padding: 12px;
-    font-size: 16px;
+    padding: 15px; /* Increased padding */
+    font-size: 18px; /* Increased font size */
     font-weight: bold;
-    border-radius: 8px;
+    border-radius: 0; /* Rectangular button */
     cursor: pointer;
-    transition: background 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.3s ease-in-out;
     margin-top: 12px;
-    opacity: 1;
+    position: relative; /* To position the pseudo-element */
+    overflow: hidden; /* Ensures no overflow outside the button */
+}
+
+/* Glossy white shine effect */
+.add-to-cart::before {
+    content: '';
+    position: absolute;
+    top: 50%; /* Initially center the gloss */
+    left: 50%;
+    width: 150%; /* Make the shine larger than the button */
+    height: 150%; /* Make the shine larger than the button */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0)); /* Gradient for shiny effect */
+    transform: rotate(-30deg); /* Angle the gloss for a realistic look */
+    pointer-events: none; /* Ensure the gloss doesn't block clicks */
+    transition: opacity 0.2s ease-in-out;
+    opacity: 0; /* Start with the gloss invisible */
+    z-index: 1;
 }
 
 /* Hover effect for button */
 .add-to-cart:hover {
-    background-color: #e04e4e;
+    background-color: black; /* Keep the black background on hover */
+    opacity: 0.9; /* Slight opacity effect on hover */
 }
+
+/* Optional: To enhance the glossy effect, add a subtle shadow */
+.add-to-cart:hover {
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2); /* Subtle white shadow for a glowing effect */
+}
+
+
+
 
 /* Filter & Product Sections */
 .filter-section {
@@ -214,22 +235,54 @@ $user_name = $_SESSION['user_name'];
 .cart {
     width: 400px; /* Increased width of the cart */
 }
+.product-image-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+    transition: opacity 0.6s ease-in-out; /* Slower and smoother transition */
+}
+
+.additional-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    opacity: 0; /* Hide the additional image initially */
+    transition: opacity 0.6s ease-in-out; /* Slower and smoother transition */
+    z-index: 1; /* Ensure it appears above the main image */
+}
+
+/* Show the additional image on hover */
+.product-image-wrapper:hover .product-image {
+    opacity: 0; /* Hide the main image */
+}
+
+.product-image-wrapper:hover .additional-image {
+    opacity: 1; /* Show the additional image */
+}
+
+
+
 
     </style>
 </head>
-<body class="bg-white text-black">
-    <div class="text-3xl font-bold text-center py-2 px-4">RUDRA</div>
+<body>
 
-    <!-- Header -->
-    <header class="border-b border-gray-200">
-    <div class="container flex justify-between items-center py-4 px-6">
+<!-- Main Navigation -->
+<div id="navbar" class="flex justify-between items-center w-full">
+    <!-- First Navbar Section (Logo + Main Nav) -->
+    <div class="flex items-center">
         <!-- Logo -->
-        <div>
+        <div class="mr-8"> <!-- Added margin-right to create space between logo and nav items -->
             <img src="IMG/logo.png" alt="RUDRA Logo" class="h-14 w-14"> 
         </div>
 
-        <!-- Main Navigation -->
-        <nav class="space-x-4 flex">
+        <nav class="space-x-6 flex"> <!-- Increased space-x from 4 to 6 -->
             <a class="text-black hover:underline" href="#">HOME</a>
             <div class="dropdown relative">
                 <a class="nav-link font-semibold text-gray-800 hover:text-gray-600 cursor-pointer">COLLECTIONS</a>
@@ -250,38 +303,39 @@ $user_name = $_SESSION['user_name'];
             <a class="text-black hover:underline" href="#">COMBO</a>
             <a class="text-black hover:underline" href="#">WINTER SALE</a>
         </nav>
-
-        <!-- Right-side Nav (Search, User, Cart) - FIXED -->
-        <nav class="flex items-center space-x-6 ml-auto">
-            <!-- Search -->
-            <a href="search.html" class="relative group">
-                <i class="fas fa-search text-xl"></i>
-                <div class="absolute top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition bg-white text-gray-800 px-2 py-1 rounded shadow-md text-sm">
-                    SEARCH
-                </div>
-            </a>
-
-            <!-- User Login Section -->
-            <a href="login.php" class="relative group flex items-center space-x-2">
-                <i class="fas fa-user text-xl cursor-pointer"></i>
-                <div class="flex items-center space-x-2">
-                    <p class="text-sm font-medium">Hello, <?php echo htmlspecialchars($user_name); ?>!</p>
-                    <a href="logout.php" class="text-sm text-blue-600 hover:underline">Log Out</a>
-                </div>
-            </a>
-
-            <!-- Cart -->
-            <a href="cart.html" class="relative group">
-                <i class="fas fa-shopping-bag text-2xl cursor-pointer"></i>
-                <div class="absolute top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition bg-white text-gray-800 px-2 py-1 rounded shadow-md text-sm">
-                    Cart
-                </div>
-            </a>
-        </nav>
     </div>
-</header>
 
-</body>
+    <!-- Second Navbar Section (Search + User + Cart) -->
+    <div id="secondnavbar" class="flex space-x-6 items-center">
+        <!-- Search -->
+        <a href="search.html" class="relative group">
+            <i class="fas fa-search text-xl"></i>
+            <div class="absolute top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition bg-white text-gray-800 px-2 py-1 rounded shadow-md text-sm">
+                SEARCH
+            </div>
+        </a>
+
+        <!-- User Login Section -->
+        <a href="login.php" class="relative group flex items-center space-x-2">
+            <i class="fas fa-user text-xl cursor-pointer"></i>
+            <div class="flex items-center space-x-1">
+                <p class="text-sm font-medium">Hello, <?php echo htmlspecialchars($user_name); ?>!</p>
+                <a href="logout.php" class="text-sm text-blue-600 hover:underline">Log Out</a>
+            </div>
+        </a>
+
+        <!-- Cart Button -->
+        <a href="cart.html" class="relative group">
+            <i class="fas fa-shopping-cart text-xl"></i>
+            <div class="absolute top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition bg-white text-gray-800 px-2 py-1 rounded shadow-md text-sm">
+               
+            </div>
+        </a>
+    </div>
+</div>
+
+
+
 
     <!-- Main Banner -->
     <section class="slider relative">
@@ -368,80 +422,85 @@ $user_name = $_SESSION['user_name'];
      <section class="container mx-auto py-12 px-6">
         <h1 class="text-3xl font-bold text-center mb-8">BEST SELLING</h1>
         <?php
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "perfumes";
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "perfumes";
 
-            $conn = new mysqli($servername, $username, $password, $dbname);
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
-            // Fetch 4 random products where product_category = 'bestsellers'
-            $query = "SELECT product_id, product_name, product_image, selling_price, crossed_price, product_size 
-                    FROM product_details 
-                    WHERE product_category = 'bestseller' 
-                    ORDER BY RAND() 
-                    LIMIT 4";
+    // Fetch 4 random products where product_category = 'newarrival'
+    $query = "SELECT product_id, product_name, product_image, additional_image1, selling_price, crossed_price, product_size 
+              FROM product_details 
+              WHERE product_category = 'bestseller' 
+              ORDER BY RAND() 
+              LIMIT 4";
 
-            $result = $conn->query($query);
+    $result = $conn->query($query);
 
-            if ($result->num_rows > 0) {
-                // echo "<h1 style='text-align: center;'>Bestsellers</h1>";
-                echo "<div class='product-container'>";
+    if ($result->num_rows > 0) {
+        echo "<div class='product-container'>";
 
-                while ($row = $result->fetch_assoc()) {
-                    $product_id = $row['product_id'];
-                    $product_name = $row['product_name'];
-                    $image_name = $row['product_image'];
-                    $selling_price = $row['selling_price'];
-                    $crossed_price = $row['crossed_price'];
-                    $product_size = $row['product_size']; 
+        while ($row = $result->fetch_assoc()) {
+            $product_id = $row['product_id'];
+            $product_name = $row['product_name'];
+            $image_name = $row['product_image'];
+            $additional_image1 = $row['additional_image1'];  // Fetch additional image
+            $selling_price = $row['selling_price'];
+            $crossed_price = $row['crossed_price'];
+            $product_size = $row['product_size']; 
 
-                    // Make sure image exists
-                    $image_path = !empty($image_name) && file_exists("uploads/" . $image_name) ? "uploads/$image_name" : 'path/to/default/image.jpg';
+            // Make sure the main image exists
+            $image_path = !empty($image_name) && file_exists("uploads/" . $image_name) ? "uploads/$image_name" : 'path/to/default/image.jpg';
 
-                    echo "<div class='product-card'>";
-                    echo "<h3 class='product-name'>$product_name</h3>";
+            // Make sure the additional image exists
+            $additional_image_path = !empty($additional_image1) && file_exists("uploads/" . $additional_image1) ? "uploads/$additional_image1" : 'path/to/default/image.jpg';
 
-                    // Display product image
-                    echo "<a href='product_inside.php?product_id=$product_id'>
-                            <img src='$image_path' alt='$product_name' class='product-image' />
-                        </a>";
+            echo "<div class='product-card'>";
+            echo "<h3 class='product-name'>$product_name</h3>";
 
-                    // Display prices with size
-                    echo "<p class='product-price'>
-                            <strong>₹$selling_price</strong> 
-                            <span class='crossed-price'>₹$crossed_price</span>
-                            <span class='product-size'> ($product_size ml)</span>
-                        </p>";
+            // Display product image and additional image with hover effect
+            echo "<div class='product-image-wrapper'>";
+            echo "<a href='product_inside.php?product_id=$product_id'>
+                    <img src='$image_path' alt='$product_name' class='product-image' />
+                    <img src='$additional_image1' alt='Additional Image' class='additional-image' />
+                </a>";
+            echo "</div>";
 
-                    // Add to Cart button
-                    echo "<button class='add-to-cart' 
-                                onclick='addToCart(this, \"$product_name\", \"$image_path\", $selling_price, $crossed_price, \"$product_size\", $product_id)'>
-                                + Add to cart
-                        </button>";
+            // Display prices with size
+            echo "<p class='product-price'>
+                    <strong>₹$selling_price</strong> 
+                    <span class='crossed-price'>₹$crossed_price</span>
+                    <span class='product-size'> ($product_size ml)</span>
+                </p>";
 
-                    echo "</div>";
-                }
+            // Add to Cart button
+            echo "<button class='add-to-cart' 
+                        onclick='addToCart(this, \"$product_name\", \"$image_path\", $selling_price, $crossed_price, \"$product_size\", $product_id)'>
+                        + Add to cart
+                    </button>";
 
-                echo "</div>";
-            } else {
-                echo "<p style='text-align: center;'>No bestsellers found.</p>";
-            }
+            echo "</div>";
+        }
 
-            $conn->close();
-            ?>
+        echo "</div>";
+    } else {
+        echo "<p style='text-align: center;'>No newarrival found.</p>";
+    }
+
+    $conn->close();
+?>
     </section>
-    <body class="bg-white">
         <div class="container mx-auto py-8">
             <h1 class="text-center text-2xl font-bold mb-8">LUXURY CATEGORIES</h1>
             <div class="flex justify-center gap-4">
                 <div class="relative text-center group">
                     <a href="https://example.com/luxury-perfumes">
-                        <img alt="Luxury Perfumes with a bottle and fruits" class="mx-auto mb-4" height="250" src="https://storage.googleapis.com/a1aa/image/fKnZCbYVraKFuYATFq5Kt14XEA-zniA323G0tSSlt34.jpg" width="190"/>
+                        <img alt="Luxury Perfumes with a bottle and fruits" class="mx-auto mb-4" height="235" width="235" src="https://storage.googleapis.com/a1aa/image/fKnZCbYVraKFuYATFq5Kt14XEA-zniA323G0tSSlt34.jpg" width="190"/>
                         <div class="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <h2 class="text-orange-500 font-bold">LUXURY</h2>
                             <p class="text-gray-200">PERFUMES</p>
@@ -450,7 +509,7 @@ $user_name = $_SESSION['user_name'];
                 </div>
                 <div class="relative text-center group">
                     <a href="https://example.com/non-alcoholic-attars">
-                        <img alt="Non-Alcoholic Attars with a bottle and flowers" class="mx-auto mb-4" height="250" src="https://storage.googleapis.com/a1aa/image/AxlL_SKRPAZjGv812G50kxTe9gJ3SEFwlw1fRmZ7i14.jpg" width="190"/>
+                        <img alt="Non-Alcoholic Attars with a bottle and flowers" class="mx-auto mb-4" height="235" width="235" src="https://storage.googleapis.com/a1aa/image/AxlL_SKRPAZjGv812G50kxTe9gJ3SEFwlw1fRmZ7i14.jpg" width="190"/>
                         <div class="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <h2 class="text-green-500 font-bold">NON-ALCOHOLIC</h2>
                             <p class="text-gray-200">ATTARS</p>
@@ -459,7 +518,7 @@ $user_name = $_SESSION['user_name'];
                 </div>
                 <div class="relative text-center group">
                     <a href="https://example.com/moisturizing-fragrance-mists">
-                        <img alt="Moisturizing Fragrance Mists with a bottle and flowers" class="mx-auto mb-4" height="250" src="https://storage.googleapis.com/a1aa/image/9T5hhKpg7cdr4ex6btP7_b_KkP7z5XabiTkx43zjLIE.jpg" width="190"/>
+                        <img alt="Moisturizing Fragrance Mists with a bottle and flowers" class="mx-auto mb-4" height="235" width="235" src="https://storage.googleapis.com/a1aa/image/9T5hhKpg7cdr4ex6btP7_b_KkP7z5XabiTkx43zjLIE.jpg" width="190"/>
                         <div class="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <h2 class="text-pink-500 font-bold">MOISTURIZING</h2>
                             <p class="text-gray-200">FRAGRANCE MISTS</p>
@@ -468,7 +527,7 @@ $user_name = $_SESSION['user_name'];
                 </div>
                 <div class="relative text-center group">
                     <a href="https://example.com/premium-gift-sets">
-                        <img alt="Premium Gift Sets with multiple bottles" class="mx-auto mb-4" height="250" src="https://storage.googleapis.com/a1aa/image/Z8e4-Noq5N_9VCXMQQurG2ur7ziuHHUwbvtsyXBYN00.jpg" width="190"/>
+                        <img alt="Premium Gift Sets with multiple bottles" class="mx-auto mb-4" height="235" width="235" src="https://storage.googleapis.com/a1aa/image/Z8e4-Noq5N_9VCXMQQurG2ur7ziuHHUwbvtsyXBYN00.jpg" width="190"/>
                         <div class="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <h2 class="text-purple-500 font-bold">PREMIUM</h2>
                             <p class="text-gray-200">GIFT SETS</p>
@@ -477,7 +536,7 @@ $user_name = $_SESSION['user_name'];
                 </div>
                 <div class="relative text-center group">
                     <a href="https://example.com/perfume-attar-combo">
-                        <img alt="Perfume and Attar Combo with bottles and fruits" class="mx-auto mb-4" height="250" src="https://storage.googleapis.com/a1aa/image/p_lqrYLuquzZWY8EsK2PT-CAVUy31zZJ1IjUwBemH-U.jpg" width="190"/>
+                        <img alt="Perfume and Attar Combo with bottles and fruits" class="mx-auto mb-4" height="235" width="235" src="https://storage.googleapis.com/a1aa/image/p_lqrYLuquzZWY8EsK2PT-CAVUy31zZJ1IjUwBemH-U.jpg" width="190"/>
                         <div class="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <h2 class="text-orange-500 font-bold">PERFUME + ATTAR</h2>
                             <p class="text-gray-200">COMBO</p>
@@ -486,78 +545,84 @@ $user_name = $_SESSION['user_name'];
                 </div>
             </div>
         </div>
-        </body>
     <!-- NEW ARRIVAL  Section -->
     <section class="container mx-auto py-12 px-6">
         <h1 class="text-3xl font-bold text-center mb-8">NEW ARRIVAL</h1>
         <div class="flex justify-center space-x-4">
         <?php
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "perfumes";
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "perfumes";
 
-            $conn = new mysqli($servername, $username, $password, $dbname);
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
-            // Fetch 4 random products where product_category = 'bestsellers'
-            $query = "SELECT product_id, product_name, product_image, selling_price, crossed_price, product_size 
-                    FROM product_details 
-                    WHERE product_category = 'newarrival' 
-                    ORDER BY RAND() 
-                    LIMIT 4";
+    // Fetch 4 random products where product_category = 'newarrival'
+    $query = "SELECT product_id, product_name, product_image, additional_image1, selling_price, crossed_price, product_size 
+              FROM product_details 
+              WHERE product_category = 'newarrival' 
+              ORDER BY RAND() 
+              LIMIT 4";
 
-            $result = $conn->query($query);
+    $result = $conn->query($query);
 
-            if ($result->num_rows > 0) {
-                // echo "<h1 style='text-align: center;'>Bestsellers</h1>";
-                echo "<div class='product-container'>";
+    if ($result->num_rows > 0) {
+        echo "<div class='product-container'>";
 
-                while ($row = $result->fetch_assoc()) {
-                    $product_id = $row['product_id'];
-                    $product_name = $row['product_name'];
-                    $image_name = $row['product_image'];
-                    $selling_price = $row['selling_price'];
-                    $crossed_price = $row['crossed_price'];
-                    $product_size = $row['product_size']; 
+        while ($row = $result->fetch_assoc()) {
+            $product_id = $row['product_id'];
+            $product_name = $row['product_name'];
+            $image_name = $row['product_image'];
+            $additional_image1 = $row['additional_image1'];  // Fetch additional image
+            $selling_price = $row['selling_price'];
+            $crossed_price = $row['crossed_price'];
+            $product_size = $row['product_size']; 
 
-                    // Make sure image exists
-                    $image_path = !empty($image_name) && file_exists("uploads/" . $image_name) ? "uploads/$image_name" : 'path/to/default/image.jpg';
+            // Make sure the main image exists
+            $image_path = !empty($image_name) && file_exists("uploads/" . $image_name) ? "uploads/$image_name" : 'path/to/default/image.jpg';
 
-                    echo "<div class='product-card'>";
-                    echo "<h3 class='product-name'>$product_name</h3>";
+            // Make sure the additional image exists
+            $additional_image_path = !empty($additional_image1) && file_exists("uploads/" . $additional_image1) ? "uploads/$additional_image1" : 'path/to/default/image.jpg';
 
-                    // Display product image
-                    echo "<a href='product_inside.php?product_id=$product_id'>
-                            <img src='$image_path' alt='$product_name' class='product-image' />
-                        </a>";
+            echo "<div class='product-card'>";
+            echo "<h3 class='product-name'>$product_name</h3>";
 
-                    // Display prices with size
-                    echo "<p class='product-price'>
-                            <strong>₹$selling_price</strong> 
-                            <span class='crossed-price'>₹$crossed_price</span>
-                            <span class='product-size'> ($product_size ml)</span>
-                        </p>";
+            // Display product image and additional image with hover effect
+            echo "<div class='product-image-wrapper'>";
+            echo "<a href='product_inside.php?product_id=$product_id'>
+                    <img src='$image_path' alt='$product_name' class='product-image' />
+                    <img src='$additional_image1' alt='Additional Image' class='additional-image' />
+                </a>";
+            echo "</div>";
 
-                    // Add to Cart button
-                    echo "<button class='add-to-cart' 
-                                onclick='addToCart(this, \"$product_name\", \"$image_path\", $selling_price, $crossed_price, \"$product_size\", $product_id)'>
-                                + Add to cart
-                        </button>";
+            // Display prices with size
+            echo "<p class='product-price'>
+                    <strong>₹$selling_price</strong> 
+                    <span class='crossed-price'>₹$crossed_price</span>
+                    <span class='product-size'> ($product_size ml)</span>
+                </p>";
 
-                    echo "</div>";
-                }
+            // Add to Cart button
+            echo "<button class='add-to-cart' 
+                        onclick='addToCart(this, \"$product_name\", \"$image_path\", $selling_price, $crossed_price, \"$product_size\", $product_id)'>
+                        + Add to cart
+                    </button>";
 
-                echo "</div>";
-            } else {
-                echo "<p style='text-align: center;'>No newarrival found.</p>";
-            }
+            echo "</div>";
+        }
 
-            $conn->close();
-            ?>
+        echo "</div>";
+    } else {
+        echo "<p style='text-align: center;'>No newarrival found.</p>";
+    }
+
+    $conn->close();
+?>
+
         </div>
     </section>
 
@@ -709,9 +774,32 @@ function toggleCart() {
         setInterval(autoSlide, 3000); // Change slide every 3 seconds
 
         showSlide(currentSlide);
+
+
+
+        const button = document.querySelector('.add-to-cart');
+
+button.addEventListener('mousemove', function (e) {
+    const gloss = button.querySelector('::before'); // Pseudo-element can't be directly accessed, so use a custom element.
+    
+    const rect = button.getBoundingClientRect(); // Get button's position
+    const mouseX = e.clientX - rect.left; // Mouse X position relative to button
+    const mouseY = e.clientY - rect.top;  // Mouse Y position relative to button
+    
+    // Position the gloss based on the mouse's position
+    const glossEffect = button.querySelector('::before');
+    glossEffect.style.left = `${mouseX - (glossEffect.offsetWidth / 2)}px`; // Center the gloss on the cursor
+    glossEffect.style.top = `${mouseY - (glossEffect.offsetHeight / 2)}px`;
+
+    // Show the gloss when hovering
+    glossEffect.style.opacity = 1;
+});
+
+button.addEventListener('mouseleave', function () {
+    const glossEffect = button.querySelector('::before');
+    glossEffect.style.opacity = 0; // Hide the gloss when the mouse leaves
+});
+
     </script>
 </body>
 </html>
-
-
--->

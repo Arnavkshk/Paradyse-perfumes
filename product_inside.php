@@ -88,7 +88,7 @@ mysqli_close($conn);
                 
                 <div class="flex space-x-2">
                 <?php 
-for ($i = 1; $i <= 10; $i++) {
+for ($i = 2; $i <= 10; $i++) {
     $imageKey = "additional_image" . $i;
     
     if (!empty($product[$imageKey])) {
@@ -124,6 +124,7 @@ for ($i = 1; $i <= 10; $i++) {
                     <button class="mt-6 bg-black text-white px-6 py-3 rounded" onclick="addToCart()">ADD TO CART</button>
                 </div>
                 <!-- Dynamic Product Description -->
+                 <H1>PRODUCT DESCRIPTION</H1>
                 <p class="mt-4" id="productDescription"><?php echo $product['product_description']; ?></p>
                 <!-- Product Details, Shipping, Satisfaction Guarantee, etc. -->
                 <!-- Add additional product details sections here if necessary -->

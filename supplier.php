@@ -153,30 +153,6 @@ $result = $conn->query($sql);
                 <thead>
                     <tr>
                         <th>ACTIONS</th>
-                        <th>PRODUCT IMAGE</th>
-                        <th>PRODUCT ID</th>
-                        <th>PRODUCT NAME</th>
-                        <th>LOT NUMBER</th>
-                        <th>SIZE</th>
-                        <th>TYPE</th>
-                        <th>VERSION</th>
-                        <th>GENDER</th>
-                        <th>CATEGORY</th>
-                        <th>SELLING PRICE</th>
-                        <th>CROSSED PRICE</th>
-                        <th>ADDITIONAL IMAGE 1</th>
-                        <th>ADDITIONAL IMAGE 2</th>
-                        <th>ADDITIONAL IMAGE 3</th>
-                        <th>ADDITIONAL IMAGE 4</th>
-                        <th>ADDITIONAL IMAGE 5</th>
-                        <th>ADDITIONAL IMAGE 6</th>
-                        <th>ADDITIONAL IMAGE 7</th>
-                        <th>ADDITIONAL IMAGE 8</th>
-                        <th>ADDITIONAL IMAGE 9</th>
-                        <th>ADDITIONAL IMAGE 10</th>
-                        <th>DESCRIPTION</th>
-                        <th>NOTES</th>
-                        <th>ADDITONAL INFORMATION</th>
                         <th>PURCHASE DATE</th>
                         
                     </tr>

@@ -155,6 +155,7 @@ $conn->close();
         .image-preview img { width: 100px; height: 100px; object-fit: cover; }
         .image-preview button { padding: 5px 10px; background-color: red; color: white; border: none; cursor: pointer; }
     </style>
+
 </head>
 <body>
 
