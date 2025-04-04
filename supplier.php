@@ -1,90 +1,164 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "perfumes";
+//require 'auth.php'; // auth check
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+require 'config.php'; // database connection
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Fetch products
-$sql = "SELECT * FROM product_details";
-
+// Fetch supplier details
+$sql = "
+    SELECT 
+        CONCAT_WS(' ', first_name, middle_name, last_name) AS full_name,
+        phone,
+        email,
+        address,
+        CONCAT_WS(' ', comp_first_name, comp_middle_name, comp_last_name) AS company_name,
+        comp_type,
+        website,
+        manager_name,
+        manager_phone,
+        manager_email,
+        comp_email,
+        comp_address,
+        trader_id,
+        gst_no,
+        pan_no,
+        tan_no,
+        remarks
+    FROM 
+        supplier
+";
 
 $result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Management</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Supplier Details</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            width: 90%;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            overflow-x: auto;
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .add-product-btn {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            display: block;
-            width: fit-content;
-            margin: 10px auto;
-            transition: background-color 0.3s;
-        }
-        .add-product-btn:hover {
-            background-color: #218838;
-        }
-        .table-container {
-            overflow-x: auto;
-        }
-        table {
-            width: 100%;
+        /* General table styling */
+        .table {
             border-collapse: collapse;
-            background: white;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-top: 20px;
+            background-color: #ffffff;
+            /* White background for the table */
         }
-        th, td {
-            padding: 10px;
+
+        /* Header Styling (lighter color) */
+        .table thead {
+            background-color: #f1f3f5;
+            /* Light grey background */
+            color: #495057;
+            /* Dark grey text for contrast */
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .table thead th {
             text-align: center;
-            border-bottom: 1px solid #ddd;
-            white-space: nowrap;
+            padding: 12px;
+            background-color: #0284c7;
         }
-        th {
-            background-color: #003366;
+
+        /* Table body styling */
+        .table tbody td {
+            padding: 12px;
+            vertical-align: middle;
+            text-align: center;
+            color: #495057;
+            /* Dark grey text */
+        }
+
+        /* Zebra striping for rows */
+        .table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+            /* Light grey for even rows */
+        }
+
+        /* Hover effect for rows */
+        .table tbody tr:hover {
+            background-color: #e2e6ea;
+            /* Slightly darker hover color */
+            cursor: pointer;
+        }
+
+        /* Responsive table */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Improve scrollbar appearance */
+        .table-responsive::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .table-responsive::-webkit-scrollbar-thumb {
+            background: #343a40;
+            border-radius: 4px;
+        }
+
+        .table-responsive::-webkit-scrollbar-thumb:hover {
+            background: #495057;
+        }
+
+        .table-responsive::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Add a subtle shadow for the table */
+        .table {
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.27);
+            /* Soft shadow */
+        }
+
+        /* Add professional button styles */
+        .btn {
+            border-radius: 5px;
+            padding: 8px 15px;
+        }
+
+        .btn-primary {
+            background-color: #0284c7;
+            /* Soft blue for primary button */
+            border-color: #0284c7;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            /* Red for danger button */
+            border-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+
+        .details-btn {
+            background-color: #008CBA;
             color: white;
         }
-        .update-btn, .delete-btn {
-            padding: 8px 12px;
+        .details-btn:hover {
+            background-color: #007B9E;
+        }
+        .update-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .update-btn:hover {
+            background-color: #d32f2f;
+        }
+        .update-btn, .details-btn {
+            padding: 8px 8px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -92,182 +166,86 @@ $result = $conn->query($sql);
             margin: 5px;
             transition: background-color 0.3s;
         }
-        .update-btn {
-            background-color: #008CBA;
-            color: white;
+        .btn-main{
+            display: flex;
         }
-        .update-btn:hover {
-            background-color: #007B9E;
-        }
-        .delete-btn {
-            background-color: #f44336;
-            color: white;
-        }
-        .delete-btn:hover {
-            background-color: #d32f2f;
-        }
-        .product-img {
-            width: 80px;
-            height: 80px;
-            border-radius: 5px;
-        }
-        /* Truncate long text with ellipsis */
-        .truncate {
-            max-width: 150px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-        /* Responsive Table for Small Screens */
-        @media screen and (max-width: 768px) {
-            .table-container {
-                overflow-x: auto;
-            }
-            table, thead, tbody, th, td, tr {
-                display: block;
-            }
-            tr {
-                margin-bottom: 10px;
-                border: 1px solid #ddd;
-            }
-            td {
-                text-align: right;
-                position: relative;
-                padding-left: 50%;
-            }
-            td::before {
-                content: attr(data-label);
-                position: absolute;
-                left: 10px;
-                font-weight: bold;
-            }
-        }
-        </style>
+
+
+    </style>
+
+
+
 </head>
+
 <body>
-    <div class="container">
-        <h2>Product Management</h2>
-        <button class="add-product-btn" onclick="location.href='addproduct.html'">+ Add New Product</button>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ACTIONS</th>
-                        <th>PURCHASE DATE</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($row = $result->fetch_assoc()) { ?>
-                        
-                        <td>
-                        <a href="update_product.php?product_id=<?= $row['product_id']; ?>">
-                            <button class="update-btn">Update</button>
-                        </a>
+    <div class="row mw-100 mh-100">
+        <!-- Sidebar -->
+        <div class="col-3">
+            <?php include("sidebar.php") ?>
+        </div>
 
-                                <a href="delete_product.php?id=<?= $row['product_id']; ?>" onclick="return confirm('Are you sure?');">
-                                    <button class="delete-btn">Delete</button>
-                                </a>
-                            </td>
-                        <td>
-                            <img src="uploads/<?= $row['product_image']; ?>" class="product-img" alt="Product Image">
-                        </td>
-                        
-                        <td><?= $row['product_id']; ?></td>
-                        <td class="truncate" title="<?= $row['product_name']; ?>"><?= $row['product_name']; ?></td>
-                        <td><?= $row['lot_number']; ?></td>
-                        <td><?= $row['product_size']; ?></td>
-                        <td><?= $row['product_type']; ?></td>
-                        <td><?= $row['product_version']; ?></td>
-                        <td><?= $row['product_gender']; ?></td>
-                        <td><?= $row['product_category']; ?></td>
-                        <td>₹<?= $row['selling_price']; ?></td>
-                        <td><s>₹<?= $row['crossed_price']; ?></s></td>
-                        <td>
-    <?php if (!empty($row['additional_image1'])): ?>
-        <img src="<?= $row['additional_image1']; ?>" class="product-img" alt="Image 1">
-    <?php else: ?>
-        <p>Additional image not added</p>
-    <?php endif; ?>
-</td>
-<td>
-    <?php if (!empty($row['additional_image2'])): ?>
-        <img src="<?= $row['additional_image2']; ?>" class="product-img" alt="Image 2">
-    <?php else: ?>
-        <p>Additional image not added</p>
-    <?php endif; ?>
-</td>
-<td>
-    <?php if (!empty($row['additional_image3'])): ?>
-        <img src="<?= $row['additional_image3']; ?>" class="product-img" alt="Image 3">
-    <?php else: ?>
-        <p>Additional image not added</p>
-    <?php endif; ?>
-</td>
-<td>
-    <?php if (!empty($row['additional_image4'])): ?>
-        <img src="<?= $row['additional_image4']; ?>" class="product-img" alt="Image 4">
-    <?php else: ?>
-        <p>Additional image not added</p>
-    <?php endif; ?>
-</td>
-<td>
-    <?php if (!empty($row['additional_image5'])): ?>
-        <img src="<?= $row['additional_image5']; ?>" class="product-img" alt="Image 5">
-    <?php else: ?>
-        <p>Additional image not added</p>
-    <?php endif; ?>
-</td>
-<td>
-    <?php if (!empty($row['additional_image6'])): ?>
-        <img src="<?= $row['additional_image6']; ?>" class="product-img" alt="Image 6">
-    <?php else: ?>
-        <p>Additional image not added</p>
-    <?php endif; ?>
-</td>
-<td>
-    <?php if (!empty($row['additional_image7'])): ?>
-        <img src="<?= $row['additional_image7']; ?>" class="product-img" alt="Image 7">
-    <?php else: ?>
-        <p>Additional image not added</p>
-    <?php endif; ?>
-</td>
-<td>
-    <?php if (!empty($row['additional_image8'])): ?>
-        <img src="<?= $row['additional_image8']; ?>" class="product-img" alt="Image 8">
-    <?php else: ?>
-        <p>Additional image not added</p>
-    <?php endif; ?>
-</td>
-<td>
-    <?php if (!empty($row['additional_image9'])): ?>
-        <img src="<?= $row['additional_image9']; ?>" class="product-img" alt="Image 9">
-    <?php else: ?>
-        <p>Additional image not added</p>
-    <?php endif; ?>
-</td>
-<td>
-    <?php if (!empty($row['additional_image10'])): ?>
-        <img src="<?= $row['additional_image10']; ?>" class="product-img" alt="Image 10">
-    <?php else: ?>
-        <p>Additional image not added</p>
-    <?php endif; ?>
-</td>
-
-                        <td class="truncate" title="<?= $row['product_description']; ?>"><?= $row['product_description']; ?></td>
-                        <td class="truncate" title="Top: <?= $row['top_notes']; ?>, Middle: <?= $row['middle_notes']; ?>, Base: <?= $row['base_notes']; ?>">
-                            <?= $row['top_notes']; ?>, <?= $row['middle_notes']; ?>, <?= $row['base_notes']; ?>
-                        </td>
-                        <td><?= $row['additional_information']; ?></td>
-                        <td><?= $row['purchase_date']; ?></td>
-                        
-                        
-                        
+        <!-- Main Content -->
+        <div id="main" class="col-9">
+            <h2 class="mb-4 mt-4">Supplier Details</h2>
+            <a href="addSupplier.php"><button type="button" class="btn btn-primary mb-4">Add New Supplier</button></a>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Actions</th>
+                            <th>Company Name</th>
+                            <th>Company Type</th>
+                            <th>Company Address</th>
+                            <th>Manager Name</th>
+                            <th>Manager Phone</th>
+                            <th>GST No</th>
+                            <th>PAN No</th>
+                            <th>TAN No</th>
                         </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php
+                        // Check if there are results and output them
+                        if ($result->num_rows > 0) {
+                            // Output data of each row
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<tr>";
+
+
+
+                                    echo "<td class='btn-main'><a href='./updateForms/supplier/updateSupplierDetails.php?trader_id=" . urlencode($row['trader_id']) . "'>
+                                            <button style=\"margin-bottom: 5px;\" type='button' class='update-btn'>Edit</button>
+                                        </a>
+                                        <a href='./supplierDetails.php?trader_id=" . urlencode($row['trader_id']) . "'>
+                                            <button type='button' class='details-btn'>Details</button>
+                                    </a>
+                                </td>";
+                                echo "<td>" . htmlspecialchars($row['company_name']) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['comp_type']) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['comp_address']) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['manager_name']) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['manager_phone']) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['gst_no']) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['pan_no']) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['tan_no']) . "</td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='20'>No suppliers found.</td></tr>";
+                        }
+
+                        // Close the connection
+                        $conn->close();
+                        ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>

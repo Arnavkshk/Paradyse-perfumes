@@ -7,7 +7,13 @@ if (!isset($_SESSION['user_name'])) {
 }
 
 $user_name = $_SESSION['user_name'];
-?>
+// Check if customer_id is set
+if (isset($_SESSION['customer_id'])) {
+    $customer_id = $_SESSION['customer_id'];
+} else {
+    // Handle the case where customer_id is not set
+    $customer_id = null; // or set it to a default value
+}?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,24 +24,64 @@ $user_name = $_SESSION['user_name'];
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
-    <style>
+    <div class="header-container">
+    <a href="index.php" class="ruuh-button"> <h1 class="header-title">RUUH</h1></a>
+</div>
+   <style>
+    .header-container {
+        text-align: center; /* Center the text */
+        margin: 2px 0; /* Add some vertical spacing */
+        position: relative; /* Position relative for pseudo-elements */
+    }
+
+    .header-title {
+        font-size: 3rem; /* Large font size */
+        font-weight: bold; /* Bold text */
+        color: #2c3e50; /* Dark color for the text */
+        text-transform: uppercase; /* Uppercase letters */
+        letter-spacing: 2px; /* Spacing between letters */
+        position: relative; /* Position relative for the underline effect */
+        display: inline-block; /* Make the heading inline-block for centering */
+    }
+
+    .header-title::before,
+    .header-title::after {
+        content: ""; /* Empty content for pseudo-elements */
+        position: absolute; /* Position absolute for the lines */
+        width: 50%; /* Width of the lines */
+        height: 4px; /* Height of the lines */
+        background-color: #e74c3c; /* Color of the lines */
+        top: 50%; /* Center vertically */
+        transform: translateY(-50%); /* Adjust for vertical centering */
+    }
+
+    .header-title::before {
+        left: 0; /* Position the left line */
+    }
+
+    .header-title::after {
+        right: 0; /* Position the right line */
+    }
+
+    
         body {
             margin: 0;
             padding: 0;
             font-family: 'Roboto', sans-serif;
         }
-        .slider {
-            position: relative;
-            overflow: hidden;
-        }
-        .slides {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-        .slide {
-            min-width: 80%;
-            box-sizing: border-box;
-        }
+       .slider {
+        position: relative;
+        overflow: hidden; /* Prevents overflow */
+    }
+    .slides {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
+    .slide {
+        min-width: 100%; /* Each slide takes full width */
+        box-sizing: border-box;
+    }
+       
         .slide img {
             height: 500px;
             object-fit: cover; 
@@ -107,7 +153,7 @@ $user_name = $_SESSION['user_name'];
     padding: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 100%;
+    width: 120%;
     margin: 10px auto;
     display: flex;
     flex-direction: column;
@@ -119,15 +165,15 @@ $user_name = $_SESSION['user_name'];
 .product-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* Ensures 4 items per row */
-    gap: 20px; /* Adjust spacing */
+    gap: 40px; /* Adjust spacing */
     justify-content: start; /* Align items to the left */
 }
 
 
 .product-card img {
     margin-top: 10px;
-    width: 100%; /* Makes image take up the full width of the card */
-    height: 36vh; /* Increased height */
+    width: 122vw; /* Makes image take up the full width of the card */
+    height: 48vh; /* Increased height */
     object-fit:cover;
     /* border-radius: 8px; */
     transition: transform 0.3s ease;
@@ -267,115 +313,203 @@ $user_name = $_SESSION['user_name'];
 }
 
 
+/* Additional styles for the Why Ruuh section */
+.why-ruuh-section {
+            background-color: white;
+            text-align: center;
+            padding: 3rem 0; /* Adjust padding as needed */
+        }
 
+        .why-ruuh-section h1 {
+            font-size: 2rem; /* Adjust font size */
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+
+        .why-ruuh-section .feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem; /* Space between features */
+        }
+
+        .why-ruuh-section img {
+            margin-bottom: 0.5rem; /* Space between image and text */
+        }
+
+        .why-ruuh-section h2 {
+            font-size: 1.5rem; /* Adjust font size */
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .why-ruuh-section p {
+            font-size: 1rem; /* Adjust font size */
+        }
 
     </style>
 </head>
 <body>
 
 <!-- Main Navigation -->
-<div id="navbar" class="flex justify-between items-center w-full">
-    <!-- First Navbar Section (Logo + Main Nav) -->
+<div id="navbar" class="flex justify-between items-center w-full bg-white shadow-md p-4">
     <div class="flex items-center">
-        <!-- Logo -->
-        <div class="mr-8"> <!-- Added margin-right to create space between logo and nav items -->
-            <img src="IMG/logo.png" alt="RUDRA Logo" class="h-14 w-14"> 
+        <div class="mr-8">
+            <img src="IMG/logo.png" alt="RUDRA Logo" class="h-14 w-14">
         </div>
-
-        <nav class="space-x-6 flex"> <!-- Increased space-x from 4 to 6 -->
-            <a class="text-black hover:underline" href="#">HOME</a>
-            <div class="dropdown relative">
-                <a class="nav-link font-semibold text-gray-800 hover:text-gray-600 cursor-pointer">COLLECTIONS</a>
-                <div class="dropdown-content absolute left-0 mt-2 bg-white border border-gray-300 shadow-lg hidden">
-                    <div class="dropdown-submenu relative">
-                        <a class="cursor-pointer block px-4 py-2 hover:bg-gray-100" onmouseover="showPerfumesSubmenu()" onmouseout="hidePerfumesSubmenu()">Perfumes</a>
-                        <div class="dropdown-content hidden absolute left-full top-0 bg-white border border-gray-300 shadow-lg" id="perfumes-submenu">
-                            <a href="#him" class="block px-4 py-2 hover:bg-gray-100">Him</a>
-                            <a href="#her" class="block px-4 py-2 hover:bg-gray-100">Her</a>
-                            <a href="#unisex" class="block px-4 py-2 hover:bg-gray-100">Unisex</a>
+        <nav class="space-x-6 flex">
+            <a class="text-gray-800 hover:text-red-500 font-semibold transition duration-300" href="index.php">HOME</a>
+<!-- Collections Navigation -->
+<div class="dropdown relative">
+    <a class="nav-link font-semibold text-gray-800 hover:text-red-500 cursor-pointer" onclick="toggleDropdown(event)">COLLECTIONS</a>
+    <div class="dropdown-content absolute left-0 mt-2 bg-white border border-gray-300 shadow-lg hidden">
+        <div class="dropdown-submenu relative">
+            <a class="cursor-pointer block px-4 py-2 hover:bg-gray-100"  href="perfumes.php">Perfumes</a>
+            <div class="dropdown-content hidden absolute left-full top-0 bg-white border border-gray-300 shadow-lg" id="perfumes-submenu">
+                            <a href="perfumes_him.php" class="block px-4 py-2 hover:bg-gray-100">Him</a>
+                            <a href="perfumes_her.php" class="block px-4 py-2 hover:bg-gray-100">Her</a>
+                            <a href="perfumes_unisex.php" class="block px-4 py-2 hover:bg-gray-100">Unisex</a>
                         </div>
-                    </div>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Attar</a>
-                </div>
-            </div>
-            <a class="text-black hover:underline" href="#">ORDER TESTERS</a>
-            <a class="text-black hover:underline" href="#">OUD COLLECTION</a>
-            <a class="text-black hover:underline" href="#">COMBO</a>
-            <a class="text-black hover:underline" href="#">WINTER SALE</a>
+        </div>
+        <a class="block px-4 py-2 hover:bg-gray-100" href="attars.php">Attar</a>
+        <a class="block px-4 py-2 hover:bg-gray-100" href="deodrants.php">Deodrants</a>
+        <a class="block px-4 py-2 hover:bg-gray-100" href="essence_oils.php">Essence Oil</a>
+    </div>
+</div>
+
+<style>
+    /* Dropdown Styles */
+    .dropdown {
+        position: relative; 
+    }
+
+    .dropdown-content {
+        display: none; 
+        position: absolute; 
+        background-color: white; 
+        border: 1px solid #ccc; 
+        z-index: 1000; 
+        width: 200px; 
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block; 
+    }
+
+    .dropdown-submenu {
+        position: relative; 
+    }
+
+    .dropdown-submenu .dropdown-content {
+        display: none; 
+        position: absolute; 
+        left: 100%; 
+        top: 0; 
+        background-color: white; 
+        border: 1px solid #ccc; 
+        z-index: 1000; 
+    }
+
+    .dropdown-submenu:hover .dropdown-content {
+        display: block; 
+    }
+
+    /* Additional styles for links */
+    .dropdown-content a {
+        display: block; 
+        padding: 10px; 
+        color: black; 
+        text-decoration: none; 
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1; 
+    }
+</style>
+
+<script>
+    function togglePerfumesSubmenu(event) {
+        event.preventDefault(); 
+        const submenu = document.getElementById('perfumes-submenu');
+        submenu.classList.toggle('hidden'); 
+    }
+
+    function toggleDropdown(event) {
+        event.preventDefault(); 
+        const dropdownContent = event.target.nextElementSibling;
+        dropdownContent.classList.toggle('hidden'); 
+    }
+</script>
+
+            <a class="text-gray-800 hover:text-red-500 font-semibold transition duration-300" href="view_products.php">ORDER TESTERS</a>
+            <a class="text-gray-800 hover:text-red-500 font-semibold transition duration-300" href="oud_collection.php">OUD COLLECTION</a>
+            <a class="text-gray-800 hover:text-red-500 font-semibold transition duration-300" href="view_products.php">COMBO</a>
+            <a class="text-gray-800 hover:text-red-500 font-semibold transition duration-300" href="sale.php">SALE</a>
         </nav>
     </div>
 
-    <!-- Second Navbar Section (Search + User + Cart) -->
     <div id="secondnavbar" class="flex space-x-6 items-center">
-        <!-- Search -->
-        <a href="search.html" class="relative group">
-            <i class="fas fa-search text-xl"></i>
+            <div class="flex items-center space-x-1">
+                <p class="text-sm font-medium text-gray-800">Hello, <?php echo htmlspecialchars($user_name); ?>!</p>
+            </div>
+        </a>
+        <a href="login.php" class="relative group flex items-center space-x-2">
+    <i class="fas fa-user text-xl text-gray-800 hover:text-red-500 transition duration-300"></i>
+    <div class="absolute top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition bg-white text-gray-800 px-2 py-1 rounded shadow-md text-sm">
+        ACCOUNT
+    </div>
+</a>        <a href="search.html" class="relative group">
+            <i class="fas fa-search text-xl text-gray-800 hover:text-red-500 transition duration-300"></i>
             <div class="absolute top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition bg-white text-gray-800 px-2 py-1 rounded shadow-md text-sm">
                 SEARCH
             </div>
         </a>
 
-        <!-- User Login Section -->
-        <a href="login.php" class="relative group flex items-center space-x-2">
-            <i class="fas fa-user text-xl cursor-pointer"></i>
-            <div class="flex items-center space-x-1">
-                <p class="text-sm font-medium">Hello, <?php echo htmlspecialchars($user_name); ?>!</p>
-                <a href="logout.php" class="text-sm text-blue-600 hover:underline">Log Out</a>
-            </div>
-        </a>
+        
 
-        <!-- Cart Button -->
-        <a href="cart.html" class="relative group">
-            <i class="fas fa-shopping-cart text-xl"></i>
+        <a href="cartfinal.php" class="relative group">
+            <i class="fas fa-shopping-cart text-xl text-gray-800 hover:text-red-500 transition duration-300"></i>
             <div class="absolute top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition bg-white text-gray-800 px-2 py-1 rounded shadow-md text-sm">
-               
+                CART
             </div>
         </a>
+        <a href="logout.php" class="relative group flex items-center space-x-2">
+    <i class="fas fa-sign-out-alt text-xl text-gray-800 hover:text-red-500 transition duration-300"></i>
+    <div class="absolute top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition bg-white text-gray-800 px-2 py-1 rounded shadow-md text-sm">
+        LOGOUT
+    </div>
+</a>
     </div>
 </div>
 
-
-
-
-    <!-- Main Banner -->
-    <section class="slider relative">
-        <div class="slides">
-            <div class="slide">
-                <img alt="Banner with perfume bottles and hearts" class="w-full" src="https://storage.googleapis.com/a1aa/image/DCztYU3niDGPcKW59kyBfcI04Xh2Q2vqy-WgHCQlDvA.jpg"/>
-                <div class="absolute inset-0 flex flex-col justify-center items-center text-center text-white">
-                    <h1 class="text-4xl font-bold">LOVE AT FIRST SNIFF</h1>
-                    <p class="text-2xl mt-2">UPTO 50% OFF SITEWIDE</p>
-                </div>
-            </div>
-            <div class="slide">
-                <img alt="Banner with perfume bottles and hearts" class="w-full" src="https://storage.googleapis.com/a1aa/image/DCztYU3niDGPcKW59kyBfcI04Xh2Q2vqy-WgHCQlDvA.jpg"/>
-                <div class="absolute inset-0 flex flex-col justify-center items-center text-center text-white">
-                    <h1 class="text-4xl font-bold">LOVE AT FIRST SNIFF</h1>
-                    <p class="text-2xl mt-2">UPTO 50% OFF SITEWIDE</p>
-                </div>
-            </div>
-            <div class="slide">
-                <img alt="Banner with perfume bottles and hearts" class="w-full" src="https://storage.googleapis.com/a1aa/image/DCztYU3niDGPcKW59kyBfcI04Xh2Q2vqy-WgHCQlDvA.jpg"/>
-                <div class="absolute inset-0 flex flex-col justify-center items-center text-center text-white">
-                    <h1 class="text-4xl font-bold">LOVE AT FIRST SNIFF</h1>
-                    <p class="text-2xl mt-2">UPTO 50% OFF SITEWIDE</p>
-                </div>
+<!-- Main Banner -->
+<section class="slider relative">
+    <div class="slides">
+        <div class="slide">
+            <img alt="Banner with perfume bottles and hearts" class="w-full" src="https://storage.googleapis.com/a1aa/image/DCztYU3niDGPcKW59kyBfcI04Xh2Q2vqy-WgHCQlDvA.jpg"/>
+            <div class="absolute inset-0 flex flex-col justify-center items-center text-center text-white">
+                <h1 class="text-4xl font-bold">LOVE AT FIRST SNIFF</h1>
+                <p class="text-2xl mt-2">UPTO 50% OFF SITEWIDE</p>
             </div>
         </div>
-        <button class="prev" onclick="moveSlide(-1)">❮</button>
-        <button class="next" onclick="moveSlide(1)">❯</button>
-    </section>
-    <!-- Products Section --
-    <section class="container mx-auto py-12 px-6">
-        <div class="flex justify-center space-x-6">
-            <img alt="Perfume bottle 1" class="h-48" src="https://storage.googleapis.com/a1aa/image/WslZgrTd1jip--1Yp1sAskQJSqR0cfDKNdIZ8qKYT38.jpg"/>
-            <img alt="Perfume bottle 2" class="h-48" src="https://storage.googleapis.com/a1aa/image/YcN97h-EXntUqPyzeUCrams3D1BSYnQRMQg0Wpsi-y8.jpg"/>
-            <img alt="Perfume bottle 3" class="h-48" src="https://storage.googleapis.com/a1aa/image/AlcqBjFCbx-5eFuwvg-ClXi0VI9f0gXUpUax5Uxv6HQ.jpg"/>
-            <img alt="Perfume bottle 4" class="h-48" src="https://storage.googleapis.com/a1aa/image/YBNOGVVrvy1Ub7_vtHlXIfZ6sYAryaSXOyZN4PhyVLM.jpg"/>
+        <div class="slide">
+            <img alt="Banner with perfume bottles" class="w-full" src="https://bellavitaluxury.co.in/cdn/shop/files/764-310_1_2cb85ee2-b15f-4b49-b235-50dc30e7c0c1.jpg?v=1723228757&width=800"/>
+            <div class="absolute inset-0 flex flex-col justify-center items-center text-center text-white">
+                
+            </div>
         </div>
-    </section>
-    <!-- Features Section -->
-    <div class="bg-gray-100 py-8 mt-14 rounded-lg shadow-lg"> <!-- Added rounded and shadow -->
+        <div class="slide">
+            <img alt="Banner with perfume bottles and flowers" class="w-full" src="https://bellavitaluxury.co.in/cdn/shop/files/764-310_1_2cb85ee2-b15f-4b49-b235-50dc30e7c0c1.jpg?v=1723228757&width=800"/>
+            <div class="absolute inset-0 flex flex-col justify-center items-center text-center text-white">
+                
+            </div>
+        </div>
+    </div>
+    <button class="prev" onclick="moveSlide(-1)">❮</button>
+    <button class="next" onclick="moveSlide(1)">❯</button>
+</section>
+  <!-- Features Section -->
+  <div class="bg-gray-100 py-8 mt-14 rounded-lg shadow-lg"> <!-- Added rounded and shadow -->
         <div class="max-w-7xl mx-auto py-4"> <!-- Added padding -->
             <h2 class="text-2xl font-bold text-center mb-6">Our Commitment to Quality</h2> <!-- Added title -->
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 text-center">
@@ -413,14 +547,15 @@ $user_name = $_SESSION['user_name'];
         </div>
     </div>
     <div class="text-center py-12 px-4">
-        <h1 class="text-2xl md:text-3xl font-bold mb-4">Discover Elegance with Rudra Perfume</h1>
+        <h1 class="text-2xl md:text-3xl font-bold mb-4">Discover Elegance with Ruuh Perfume</h1>
         <p class="text-lg md:text-xl max-w-6xl mx-auto">
-            Step into a world of sophistication with Rudra Perfume. Our exclusive range of fragrances for men and women is inspired by timeless classics yet crafted with a unique blend of luxury and affordability. Immerse yourself in captivating aromas that elevate every moment with grace and charm.
+            Step into a world of sophistication with Ruuh Perfume. Our exclusive range of fragrances for men and women is inspired by timeless classics yet crafted with a unique blend of luxury and affordability. Immerse yourself in captivating aromas that elevate every moment with grace and charm.
         </p>
     </div>
      <!-- Best Selling Section -->
      <section class="container mx-auto py-12 px-6">
         <h1 class="text-3xl font-bold text-center mb-8">BEST SELLING</h1>
+        <div class="flex justify-center space-x-4">
         <?php
     $servername = "localhost";
     $username = "root";
@@ -489,11 +624,13 @@ $user_name = $_SESSION['user_name'];
 
         echo "</div>";
     } else {
-        echo "<p style='text-align: center;'>No newarrival found.</p>";
+        echo "<p style='text-align: center;'>No bestselling found.</p>";
     }
 
     $conn->close();
 ?>
+
+        </div>
     </section>
         <div class="container mx-auto py-8">
             <h1 class="text-center text-2xl font-bold mb-8">LUXURY CATEGORIES</h1>
@@ -547,7 +684,7 @@ $user_name = $_SESSION['user_name'];
         </div>
     <!-- NEW ARRIVAL  Section -->
     <section class="container mx-auto py-12 px-6">
-        <h1 class="text-3xl font-bold text-center mb-8">NEW ARRIVAL</h1>
+        <h1 class="text-3xl font-bold text-center mb-8">NEW ARRIVALS</h1>
         <div class="flex justify-center space-x-4">
         <?php
     $servername = "localhost";
@@ -626,6 +763,73 @@ $user_name = $_SESSION['user_name'];
         </div>
     </section>
 
+<!-- Why Ruuh Section -->
+<div class="why-ruuh-section">
+    <h1>WHY RUUH?</h1>
+    <div class="flex flex-col md:flex-row justify-center items-center space-y-8 md:space-y-0 md:space-x-16">
+        <div class="feature">
+            <img alt="Illustration of a bunny representing cruelty-free products" class="mb-4" src="https://placehold.co/100x100"/>
+            <h2>CRUELTY FREE</h2>
+            <p>Compassion in every bottle: Our Promise to cruelty-free Products.</p>
+        </div>
+        <div class="feature">
+            <img alt="Illustration of a perfume bottle representing fragrance forward products" class="mb-4" src="https://placehold.co/100x100"/>
+            <h2>FRAGRANCE FORWARD</h2>
+            <p>Delight in every scent: Our Commitment to premium fragrances.</p>
+        </div>
+        <div class="feature">
+            <img alt="Illustration of a wallet representing affordable luxury" class="mb-4" src="https://placehold.co/100x100"/>
+            <h2>AFFORDABLE LUXURY</h2>
+            <p>Offering Premium Quality and Elegance at an Accessible Price.</p>
+        </div>
+        <div class="feature">
+            <img alt="Illustration of gender symbols representing gender neutral products" class="mb-4" src="https://placehold.co/100x100"/>
+            <h2>GENDER NEUTRAL</h2>
+            <p>Elevate your self-care routine with inclusive bath, body, and personal care for all.</p>
+        </div>
+    </div>
+            </div>
+
+            <footer class="py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between">
+                <!-- Subscribe Section -->
+                <div class="mb-8 md:mb-0">
+                    <h2 class="font-bold mb-2">SUBSCRIBE</h2>
+                    <p class="mb-4">Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Your e-mail" class="border border-gray-300 p-2 rounded-l-md w-full">
+                        <button type="submit" class="bg-gray-300 p-2 rounded-r-md">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+                <!-- Perfume Section -->
+                <div class="mb-8 md:mb-0">
+                    <h2 class="font-bold mb-2">PERFUME</h2>
+                    <ul>
+                        <li class="mb-2"><a href="#" class="hover:underline">Acqua</a></li>
+                        <li class="mb-2"><a href="#" class="hover:underline">Savage</a></li>
+                        <li class="mb-2"><a href="#" class="hover:underline">Blue Rush</a></li>
+                        <li class="mb-2"><a href="#" class="hover:underline">Aventus</a></li>
+                    </ul>
+                </div>
+                <!-- Support Section -->
+                <div>
+                    <h2 class="font-bold mb-2">SUPPORT</h2>
+                    <ul>
+                        <li class="mb-2"><a href="shipping.php" class="hover:underline">Shipping Policy</a></li>
+                        <li class="mb-2"><a href="#" class="hover:underline">Refund Policy</a></li>
+                        <li class="mb-2"><a href="#" class="hover:underline">Terms and Condition</a></li>
+                        <li class="mb-2"><a href="#" class="hover:underline">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-gray-500">
+                <p>Ruuh Perfumes &nbsp; &bull; &nbsp;</p>
+            </div>
+        </div>
+    </footer>
 
     <aside class="fixed right-0 top-0 cart h-full bg-white shadow-lg p-4 overflow-y-auto hidden" id="cart">
     <div class="flex justify-between items-center mb-4">
@@ -637,55 +841,53 @@ $user_name = $_SESSION['user_name'];
     <div class="border-b mb-4"></div>
     <div id="cart-items"></div>
     <div class="fixed bottom-0 left-0 w-full bg-white p-4 shadow-lg">
-        <!-- <div class="text-right text-gray-500 mb-2 ">
-            Super Fast & Free Delivery + Additional up to 10% OFF on all Prepaid Orders
-        </div> -->
         <div class="flex justify-end">
-            <button class="w-auto bg-red-500 text-white py-2 px-4 rounded" id="checkout-button">
+            <a href="cartfinal.php" class="w-auto bg-red-500 text-white rounded" id="checkout-button">
                 CHECKOUT • <span id="total-price">Rs. 0.00</span>
-            </button>
+            </a>
         </div>
     </div>
 </aside>
 
+<script>
+// Load the cart from localStorage if it exists
+const cartItems = JSON.parse(localStorage.getItem('cart')) || {};
 
-    <script>
+// Function to save cart to localStorage
+function saveCart() {
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+}
 
-const cartItems = {};
-
+// Function to add items to the cart
 function addToCart(button, name, image, price, originalPrice, size, productId) {
-    // If item doesn't exist in the cart, initialize it with 1 quantity
     if (!cartItems[productId]) {
         cartItems[productId] = { name, image, price, originalPrice, size, quantity: 1 };
     } else {
-        // If the item already exists, increase its quantity
         cartItems[productId].quantity += 1;
     }
 
-    // Update the cart display
-    updateCart();
-
-    // Show the cart if it's hidden
+    saveCart(); // Save to localStorage
+    updateCart(); // Update the UI
     document.getElementById('cart').classList.remove('hidden');
 }
 
+// Close cart functionality
 document.getElementById('close-cart').addEventListener('click', () => {
     document.getElementById('cart').classList.add('hidden');
 });
 
+// Update cart UI
 function updateCart() {
     const cartItemsContainer = document.getElementById('cart-items');
-    cartItemsContainer.innerHTML = ''; // Clear the cart before updating
+    cartItemsContainer.innerHTML = ''; // Clear current cart items
     let totalPrice = 0;
     let itemCount = 0;
 
-    // Loop over each item in the cart
     for (const productId in cartItems) {
         const { name, image, price, originalPrice, size, quantity } = cartItems[productId];
         totalPrice += price * quantity;
         itemCount += quantity;
 
-        // Create the cart item HTML
         const cartItem = document.createElement('div');
         cartItem.classList.add('flex', 'items-center', 'mb-2');
         cartItem.innerHTML = `
@@ -695,21 +897,20 @@ function updateCart() {
                 <div class="text-gray-500">₹${price.toFixed(2)} <span class="line-through">₹${originalPrice}</span></div>
                 <div class="text-gray-500">(${size} ml)</div>
                 <div class="flex items-center mt-2">
-                    <button class="border px-2 py-1" onclick="updateQuantity(${productId}, -1)">-</button>
-                    <span class="mx-2">${quantity}</span>
-                    <button class="border px-2 py-1" onclick="updateQuantity(${productId}, 1)">+</button>
-                    <a class="ml-4 text-blue-500" href="#" onclick="removeItem(${productId})">Remove</a>
+                    <button class="border px-2 py-1" onclick="updateQuantity('${productId}', -1)">-</button>
+                    <span class="mx-2" id="quantity_${productId}">${quantity}</span>
+                    <button class="border px-2 py-1" onclick="updateQuantity('${productId}', 1)">+</button>
+                    <a class="ml-4 text-blue-500" href="#" onclick="removeItem('${productId}')">Remove</a>
                 </div>
             </div>
         `;
         cartItemsContainer.appendChild(cartItem);
     }
 
-    // Update the total price and item count in the cart header
     document.getElementById('total-price').textContent = `₹${totalPrice.toFixed(2)}`;
     document.getElementById('cart-item-count').textContent = `${itemCount} item${itemCount > 1 ? 's' : ''}`;
 
-    // Show or hide the free shipping message based on the total price
+    // Show free shipping message if applicable
     const checkoutButton = document.getElementById('checkout-button');
     if (totalPrice >= 595) {
         checkoutButton.classList.remove('bg-red-500');
@@ -720,86 +921,48 @@ function updateCart() {
         checkoutButton.classList.add('bg-red-500');
         document.getElementById('free-shipping-message').classList.add('hidden');
     }
+
+    saveCart(); // Save changes to localStorage
 }
 
+// Function to update item quantity
 function updateQuantity(productId, change) {
     if (cartItems[productId]) {
         cartItems[productId].quantity += change;
-        
-        // If quantity is less than or equal to zero, remove the item
+
         if (cartItems[productId].quantity <= 0) {
             delete cartItems[productId];
         }
-        
-        // Update the cart after changing the quantity
+
         updateCart();
     }
 }
 
+// Function to remove an item from the cart
 function removeItem(productId) {
     delete cartItems[productId];
     updateCart();
 }
 
+// Toggle cart visibility
 function toggleCart() {
-    const cart = document.getElementById('cart');
-    cart.classList.toggle('hidden');
+    document.getElementById('cart').classList.toggle('hidden');
 }
 
+// Load cart on page load
+document.addEventListener('DOMContentLoaded', updateCart);
 
-
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-
-        function showSlide(index) {
-            if (index >= slides.length) {
-                currentSlide = 0;
-            } else if (index < 0) {
-                currentSlide = slides.length - 1;
-            } else {
-                currentSlide = index;
-            }
-            const offset = -currentSlide * 100;
-            document.querySelector('.slides').style.transform = `translateX(${offset}%)`;
-        }
-
-        function moveSlide(step) {
-            showSlide(currentSlide + step);
-        }
-
-        function autoSlide() {
-            moveSlide(1);
-        }
-
-        setInterval(autoSlide, 3000); // Change slide every 3 seconds
-
-        showSlide(currentSlide);
-
-
-
-        const button = document.querySelector('.add-to-cart');
-
-button.addEventListener('mousemove', function (e) {
-    const gloss = button.querySelector('::before'); // Pseudo-element can't be directly accessed, so use a custom element.
-    
-    const rect = button.getBoundingClientRect(); // Get button's position
-    const mouseX = e.clientX - rect.left; // Mouse X position relative to button
-    const mouseY = e.clientY - rect.top;  // Mouse Y position relative to button
-    
-    // Position the gloss based on the mouse's position
-    const glossEffect = button.querySelector('::before');
-    glossEffect.style.left = `${mouseX - (glossEffect.offsetWidth / 2)}px`; // Center the gloss on the cursor
-    glossEffect.style.top = `${mouseY - (glossEffect.offsetHeight / 2)}px`;
-
-    // Show the gloss when hovering
-    glossEffect.style.opacity = 1;
+// Checkout button event
+document.getElementById('checkout-button').addEventListener('click', () => {
+    if (Object.keys(cartItems).length > 0) {
+        localStorage.setItem('cart', JSON.stringify(cartItems)); // Ensure cart data is stored
+        window.location.href = 'cartfinal.php';
+    } else {
+        alert('Your cart is empty. Please add items before checking out.');
+    }
 });
+</script>
 
-button.addEventListener('mouseleave', function () {
-    const glossEffect = button.querySelector('::before');
-    glossEffect.style.opacity = 0; // Hide the gloss when the mouse leaves
-});
-
-    </script>
 </body>
+
 </html>

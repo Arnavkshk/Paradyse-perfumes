@@ -153,30 +153,30 @@ $result = $conn->query($sql);
                 <thead>
                     <tr>
                         <th>ACTIONS</th>
-                        <th>PRODUCT IMAGE</th>
-                        <th>PRODUCT ID</th>
-                        <th>PRODUCT NAME</th>
-                        <th>LOT NUMBER</th>
+                        <th>IMAGE</th>
+                        <th> ID</th>
+                        <th> NAME</th>
+                        <th>LOT</th>
                         <th>SIZE</th>
                         <th>TYPE</th>
                         <th>VERSION</th>
                         <th>GENDER</th>
                         <th>CATEGORY</th>
-                        <th>SELLING PRICE</th>
-                        <th>CROSSED PRICE</th>
-                        <th>ADDITIONAL IMAGE 1</th>
-                        <th>ADDITIONAL IMAGE 2</th>
-                        <th>ADDITIONAL IMAGE 3</th>
-                        <th>ADDITIONAL IMAGE 4</th>
-                        <th>ADDITIONAL IMAGE 5</th>
-                        <th>ADDITIONAL IMAGE 6</th>
-                        <th>ADDITIONAL IMAGE 7</th>
-                        <th>ADDITIONAL IMAGE 8</th>
-                        <th>ADDITIONAL IMAGE 9</th>
-                        <th>ADDITIONAL IMAGE 10</th>
-                        <th>DESCRIPTION</th>
+                        <th>S.P</th>
+                        <th>C.P</th>
+                        <th>IMAGE 1</th>
+                        <th>IMAGE 2</th>
+                        <th>IMAGE 3</th>
+                        <th>IMAGE 4</th>
+                        <th>IMAGE 5</th>
+                        <th>IMAGE 6</th>
+                        <th>IMAGE 7</th>
+                        <th>IMAGE 8</th>
+                        <th>IMAGE 9</th>
+                        <th>IMAGE 10</th>
+                        <th>DESC</th>
                         <th>NOTES</th>
-                        <th>ADDITONAL INFORMATION</th>
+                        <th>INFO</th>
                         <th>PURCHASE DATE</th>
                         
                     </tr>
@@ -205,76 +205,76 @@ $result = $conn->query($sql);
                         <td><?= $row['product_version']; ?></td>
                         <td><?= $row['product_gender']; ?></td>
                         <td><?= $row['product_category']; ?></td>
-                        <td>₹<?= $row['selling_price']; ?></td>
-                        <td><s>₹<?= $row['crossed_price']; ?></s></td>
+                        <td style="color:blue">₹<?= $row['selling_price']; ?></td>
+                        <td style="color:red"><s>₹<?= $row['crossed_price']; ?></s></td>
                         <td>
     <?php if (!empty($row['additional_image1'])): ?>
         <img src="<?= $row['additional_image1']; ?>" class="product-img" alt="Image 1">
     <?php else: ?>
-        <p>Additional image not added</p>
+        <p> not added</p>
     <?php endif; ?>
 </td>
 <td>
     <?php if (!empty($row['additional_image2'])): ?>
         <img src="<?= $row['additional_image2']; ?>" class="product-img" alt="Image 2">
     <?php else: ?>
-        <p>Additional image not added</p>
+        <p>not added</p>
     <?php endif; ?>
 </td>
 <td>
     <?php if (!empty($row['additional_image3'])): ?>
         <img src="<?= $row['additional_image3']; ?>" class="product-img" alt="Image 3">
     <?php else: ?>
-        <p>Additional image not added</p>
+        <p>not added</p>
     <?php endif; ?>
 </td>
 <td>
     <?php if (!empty($row['additional_image4'])): ?>
         <img src="<?= $row['additional_image4']; ?>" class="product-img" alt="Image 4">
     <?php else: ?>
-        <p>Additional image not added</p>
+        <p>not added</p>
     <?php endif; ?>
 </td>
 <td>
     <?php if (!empty($row['additional_image5'])): ?>
         <img src="<?= $row['additional_image5']; ?>" class="product-img" alt="Image 5">
     <?php else: ?>
-        <p>Additional image not added</p>
+        <p>not added</p>
     <?php endif; ?>
 </td>
 <td>
     <?php if (!empty($row['additional_image6'])): ?>
         <img src="<?= $row['additional_image6']; ?>" class="product-img" alt="Image 6">
     <?php else: ?>
-        <p>Additional image not added</p>
+        <p>not added</p>
     <?php endif; ?>
 </td>
 <td>
     <?php if (!empty($row['additional_image7'])): ?>
         <img src="<?= $row['additional_image7']; ?>" class="product-img" alt="Image 7">
     <?php else: ?>
-        <p>Additional image not added</p>
+        <p>not added</p>
     <?php endif; ?>
 </td>
 <td>
     <?php if (!empty($row['additional_image8'])): ?>
         <img src="<?= $row['additional_image8']; ?>" class="product-img" alt="Image 8">
     <?php else: ?>
-        <p>Additional image not added</p>
+        <p>not added</p>
     <?php endif; ?>
 </td>
 <td>
     <?php if (!empty($row['additional_image9'])): ?>
         <img src="<?= $row['additional_image9']; ?>" class="product-img" alt="Image 9">
     <?php else: ?>
-        <p>Additional image not added</p>
+        <p>not added</p>
     <?php endif; ?>
 </td>
 <td>
     <?php if (!empty($row['additional_image10'])): ?>
         <img src="<?= $row['additional_image10']; ?>" class="product-img" alt="Image 10">
     <?php else: ?>
-        <p>Additional image not added</p>
+        <p>not added</p>
     <?php endif; ?>
 </td>
 
